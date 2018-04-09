@@ -19,11 +19,11 @@ public class TelaHistorico extends JInternalFrame {
 	private DefaultTableModel modelo = new DefaultTableModel();
 	
 	public TelaHistorico(){
-		super("Historico", true, true , false, true);
+		super("Historico", true, true , false, false);
 		Container pane = this.getContentPane();
 		pane.setLayout(null);
 
-		buttonAtualizar.setBounds(5, 10, 90, 70);
+		buttonAtualizar.setBounds(5, 10, 100, 80);
 		buttonAtualizar.setHorizontalTextPosition(SwingConstants.CENTER);
 		buttonAtualizar.setVerticalAlignment(SwingConstants.TOP);
 		buttonAtualizar.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -36,7 +36,7 @@ public class TelaHistorico extends JInternalFrame {
 		}
 		});
 	
-		buttonFechar.setBounds(95, 10, 90, 70);
+		buttonFechar.setBounds(110, 10, 100, 80);
 		buttonFechar.setHorizontalTextPosition(SwingConstants.CENTER);
 		buttonFechar.setVerticalAlignment(SwingConstants.TOP);
 		buttonFechar.setVerticalTextPosition(SwingConstants.BOTTOM);
