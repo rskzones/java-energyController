@@ -7,20 +7,25 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.feetEnergy.controller.LoginJdbcDAO;
+import com.feetEnergy.controller.ConnectionClass;
 import com.feetEnergy.view.TelaPrincipal;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField passwordField;
+	private JTextField txtUser;
+	private JPasswordField txtPass;
 
 	/**
 	 * Launch the application.
@@ -50,14 +55,14 @@ public class Login extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(126, 65, 150, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtUser = new JTextField();
+		txtUser.setBounds(126, 65, 150, 20);
+		contentPane.add(txtUser);
+		txtUser.setColumns(10);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(126, 115, 150, 20);
-		contentPane.add(passwordField);
+		txtPass = new JPasswordField();
+		txtPass.setBounds(126, 115, 150, 20);
+		contentPane.add(txtPass);
 		
 		JLabel lblUsurio = new JLabel("Usuário:");
 		lblUsurio.setBounds(53, 71, 63, 14);
@@ -71,14 +76,31 @@ public class Login extends JFrame {
 		btnFazerLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				TelaPrincipal tlaPrincipal = new TelaPrincipal();
-				tlaPrincipal.setVisible(true);
-				Login.this.setVisible(false);
+				Connection con;
+				try {
+					con = ConnectionClass.getConnection();
+					
+					LoginJdbcDAO dao = new LoginJdbcDAO(con);
+					
+					if(dao.checkLogin(txtUser.getText(), String.valueOf(txtPass.getPassword()))){
+				           new TelaPrincipal().setVisible(true);
+				           Login.this.dispose();
+				       }else{
+				           JOptionPane.showMessageDialog(null, "Login Incorreto!");
+				       }
+		
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
-			}
+			}       
+				
 		});
 		
 		btnFazerLogin.setBounds(176, 169, 100, 30);
 		contentPane.add(btnFazerLogin);
 	}
+	
+	
 }

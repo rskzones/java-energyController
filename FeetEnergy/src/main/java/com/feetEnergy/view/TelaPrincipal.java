@@ -42,6 +42,9 @@ public class TelaPrincipal extends JFrame {
 		JMenuItem menuConfigItem = new JMenuItem("Configurações");
 		mnOpes.add(menuConfigItem);
 		
+		JMenuItem menuExitItem = new JMenuItem("Finalizar Aplicação");
+		mnOpes.add(menuExitItem);
+		
 		menuHistoricoItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -58,6 +61,14 @@ public class TelaPrincipal extends JFrame {
 				TelaConfig tlaConfig = new TelaConfig();
 				tlaConfig.setVisible(true);
 				TelaPrincipal.this.setVisible(false);
+				
+			}
+		});
+		
+		menuExitItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				System.exit(0);
 				
 			}
 		});
