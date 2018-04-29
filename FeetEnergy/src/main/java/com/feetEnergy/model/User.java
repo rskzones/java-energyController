@@ -1,10 +1,13 @@
 package com.feetEnergy.model;
 
+import java.sql.Date;
+
 public class User {
 
 	private Integer idUser;
 	private String user;
 	private String pass;
+	private Date data;
 	public Integer getIdUser() {
 		return idUser;
 	}
@@ -22,6 +25,12 @@ public class User {
 	}
 	public void setPass(String pass) {
 		this.pass = pass;
+	}
+	public Date getData() {
+		return data;
+	}
+	public void setData(Date data) {
+		this.data = data;
 	}
 	
 	

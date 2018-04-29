@@ -87,7 +87,7 @@ public class TelaHistorico extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnAtualizar.setIcon(new ImageIcon(TelaHistorico.class.getResource("/com/sun/javafx/scene/web/skin/Redo_16x16_JFX.png")));
+		//btnAtualizar.setIcon(new ImageIcon(TelaHistorico.class.getResource("/com/sun/javafx/scene/web/skin/Redo_16x16_JFX.png")));
 		btnAtualizar.setBounds(10, 11, 110, 35);
 		contentPane.add(btnAtualizar);
 		
@@ -101,22 +101,21 @@ public class TelaHistorico extends JFrame {
 				
 			}
 		});
-		btnVoltar.setIcon(new ImageIcon(TelaHistorico.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
+		//btnVoltar.setIcon(new ImageIcon(TelaHistorico.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		btnVoltar.setBounds(707, 11, 100, 35);
 		contentPane.add(btnVoltar);
 	}
 	
-	        DefaultTableModel modelo = (DefaultTableModel);
-	        jTProdutos.setRowSorter(new TableRowSorter(model));
+	       // DefaultTableModel modelo = (DefaultTableModel);
+	       // jTProdutos.setRowSorter(new TableRowSorter(model));
 
-	        readJTable();
-
-	    }
+	       // readJTable();
+ }
 	
-	public void readJTable() {
+	/*public void readJTable() {
     	
-		DefaultTableModel modelo = (DefaultTableModel) jTProdutos.getModel();
-		GeracaoJdbcDAO gdao = new GeracaoJdbcDAO();
+		//DefaultTableModel modelo = (DefaultTableModel) jTProdutos.getModel();
+		//GeracaoJdbcDAO gdao = new GeracaoJdbcDAO();
 		
 		
 		
@@ -138,6 +137,5 @@ public class TelaHistorico extends JFrame {
         this.scrollPainel = new JScrollPane(table);
 
         this.add(scrollPainel);
-    }
+    }*/
 	
-}

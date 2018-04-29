@@ -23,7 +23,7 @@ import javax.swing.JSeparator;
 public class TelaPrincipal extends JFrame {
 
 	private JPanel contentPane;
-	private int nivelBat = 15 ;
+	private int nivelBat = 100 ;
 
 	public TelaPrincipal() {
 		setTitle("Feet Energy - Controlador de Energia");

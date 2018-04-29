@@ -20,12 +20,15 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtUser;
 	private JPasswordField txtPass;
+	private JButton btnCadastro;
 
 	/**
 	 * Launch the application.
@@ -47,32 +50,37 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
-		setTitle("Fazer Login no FeetEnergy");
+		setTitle("FeetEnergy");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 385, 295);
+		setBounds(100, 100, 290, 261);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		txtUser = new JTextField();
-		txtUser.setBounds(126, 65, 150, 20);
+		txtUser.setFont(new Font("Arial", Font.PLAIN, 11));
+		txtUser.setBounds(38, 51, 200, 20);
 		contentPane.add(txtUser);
 		txtUser.setColumns(10);
 		
 		txtPass = new JPasswordField();
-		txtPass.setBounds(126, 115, 150, 20);
+		txtPass.setFont(new Font("Arial", Font.PLAIN, 11));
+		txtPass.setBounds(38, 114, 200, 20);
 		contentPane.add(txtPass);
 		
 		JLabel lblUsurio = new JLabel("Usuário:");
-		lblUsurio.setBounds(53, 71, 63, 14);
+		lblUsurio.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblUsurio.setBounds(38, 22, 69, 30);
 		contentPane.add(lblUsurio);
 		
 		JLabel lblSenha = new JLabel("Senha:");
-		lblSenha.setBounds(60, 121, 56, 14);
+		lblSenha.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSenha.setBounds(38, 82, 69, 30);
 		contentPane.add(lblSenha);
 		
-		JButton btnFazerLogin = new JButton("Fazer Login");
+		JButton btnFazerLogin = new JButton("Login");
+		btnFazerLogin.setFont(new Font("Arial", Font.PLAIN, 11));
 		btnFazerLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -82,24 +90,40 @@ public class Login extends JFrame {
 					
 					LoginJdbcDAO dao = new LoginJdbcDAO(con);
 					
-					if(dao.checkLogin(txtUser.getText(), String.valueOf(txtPass.getPassword()))){
-				           new TelaPrincipal().setVisible(true);
-				           Login.this.dispose();
-				       }else{
-				           JOptionPane.showMessageDialog(null, "Login Incorreto!");
-				       }
+					if(txtUser.getText().isEmpty() || txtPass.getPassword().length == 0){
+						JOptionPane.showMessageDialog(null, "Todos os campos devem estar preenchidos!","Aviso", JOptionPane.WARNING_MESSAGE);
+					}else{
+						if(dao.checkLogin(txtUser.getText(), String.valueOf(txtPass.getPassword()))){
+							new TelaPrincipal().setVisible(true);
+					        Login.this.dispose();
+					    }else{
+					    	JOptionPane.showMessageDialog(null, "Login Incorreto!");
+					    }
+					}
 		
 				} catch (ClassNotFoundException | SQLException e) {
-					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Erro na Comunicação com o Banco de Dados!");
 					e.printStackTrace();
 				}
-				
 			}       
 				
 		});
 		
-		btnFazerLogin.setBounds(176, 169, 100, 30);
+		btnFazerLogin.setBounds(38, 160, 83, 30);
 		contentPane.add(btnFazerLogin);
+		
+		btnCadastro = new JButton("Cadastrar-se");
+		btnCadastro.setFont(new Font("Arial", Font.PLAIN, 11));
+		btnCadastro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				TelaCadUser tlaCadastro = new TelaCadUser();
+				tlaCadastro.setVisible(true);
+				Login.this.dispose();	
+			}
+		});
+		btnCadastro.setBounds(131, 160, 107, 30);
+		contentPane.add(btnCadastro);
 	}
 	
 	
