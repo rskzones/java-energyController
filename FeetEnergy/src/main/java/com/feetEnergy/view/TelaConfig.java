@@ -11,25 +11,27 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.Font;
 
 public class TelaConfig extends JFrame {
 
 	private JPanel contentPane;
 
 	public TelaConfig() {
+		setTitle("Feet Energy - Configurações");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 835, 530);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-		
-		JToolBar toolBar = new JToolBar();
-		contentPane.add(toolBar, BorderLayout.NORTH);
+		contentPane.setLayout(null);
 		
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				
 				TelaPrincipal tlaPrincipal = new TelaPrincipal();
 				tlaPrincipal.setVisible(true);
@@ -37,10 +39,13 @@ public class TelaConfig extends JFrame {
 				
 			}
 		});
-		toolBar.add(btnVoltar);
+		btnVoltar.setBackground(Color.LIGHT_GRAY);
+		btnVoltar.setBounds(10, 11, 100, 35);
+		contentPane.add(btnVoltar);
 		
-		JSeparator separator = new JSeparator();
-		toolBar.add(separator);
+		JLabel lblManutencao = new JLabel("Configurações em breve.");
+		lblManutencao.setFont(new Font("Segoe UI", Font.PLAIN, 24));
+		lblManutencao.setBounds(138, 11, 400, 35);
+		contentPane.add(lblManutencao);
 	}
-
 }

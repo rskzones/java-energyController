@@ -18,7 +18,7 @@ public class GeracaoJdbcDAO {
 	}
 	
 	public List<GeracaoEnergia> listar() {
-		String sql = "select * from tbgeracao";
+		String sql = "select * from geracao";
         System.out.println(sql);		
         List<GeracaoEnergia> geraEnergia = new ArrayList<GeracaoEnergia>();
 		try {
@@ -30,13 +30,14 @@ public class GeracaoJdbcDAO {
 				
 				int id = rs.getInt("idGeracao");
 				Date data = rs.getDate("data");
-				int gerado = rs.getInt("gerado");
+				float gerado = rs.getFloat("gerado");
 				int tempo = rs.getInt("tempo");
 				int porcentagem = rs.getInt("porcentagem");
 				
 				geracao.setIdGeracao(id);
 				geracao.setData(data);
 				geracao.setGerado(gerado);
+				geracao.setTempo(tempo);
 				geracao.setPorcentagem(porcentagem);
 				
 				geraEnergia.add(geracao);

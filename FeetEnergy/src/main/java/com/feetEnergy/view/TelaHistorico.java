@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.ImageIcon;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 
 import com.feetEnergy.controller.GeracaoJdbcDAO;
+import java.awt.Color;
 
 public class TelaHistorico extends JFrame {
 
@@ -41,7 +43,7 @@ public class TelaHistorico extends JFrame {
 	private JTable table;
 	private JScrollPane scrollPainel;
 	private DefaultTableModel modelTable = new DefaultTableModel();
-	
+		
 	private JMenuBar menuBar;
 	private JMenu mnOpRelatorio;
 	
@@ -49,11 +51,13 @@ public class TelaHistorico extends JFrame {
 
 
 	public TelaHistorico() {
+		setBackground(Color.WHITE);
 		setTitle("Feet Energy - Histórico");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 835, 530);
 		
 		menuBar = new JMenuBar();
+		menuBar.setBackground(Color.WHITE);
 		setJMenuBar(menuBar);
 		
 		mnOpRelatorio = new JMenu("Opcões de Relatório");
@@ -62,6 +66,7 @@ public class TelaHistorico extends JFrame {
 		menuGeraTxt = new JMenuItem("Gerar Documento .txt");
 		mnOpRelatorio.add(menuGeraTxt);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -75,23 +80,28 @@ public class TelaHistorico extends JFrame {
 		modelTable.addColumn("Tempo");
 		modelTable.addColumn("%");
 		
-		
-		
 		JScrollPane scrollpane = new JScrollPane(table);
 		scrollpane.setBounds(5, 57, 809, 408);
 		
 		contentPane.add(scrollpane);
 		
+		readJTable();
+		
 		JButton btnAtualizar = new JButton("Atualizar");
+		btnAtualizar.setBackground(Color.LIGHT_GRAY);
 		btnAtualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				modelTable.setNumRows(0);
+				readJTable();
+				
 			}
 		});
-		//btnAtualizar.setIcon(new ImageIcon(TelaHistorico.class.getResource("/com/sun/javafx/scene/web/skin/Redo_16x16_JFX.png")));
+//		btnAtualizar.setIcon(new ImageIcon(TelaHistorico.class.getResource("/com/sun/javafx/scene/web/skin/Redo_16x16_JFX.png")));
 		btnAtualizar.setBounds(10, 11, 110, 35);
 		contentPane.add(btnAtualizar);
 		
 		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.setBackground(Color.LIGHT_GRAY);
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -101,41 +111,41 @@ public class TelaHistorico extends JFrame {
 				
 			}
 		});
-		//btnVoltar.setIcon(new ImageIcon(TelaHistorico.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
+//		btnVoltar.setIcon(new ImageIcon(TelaHistorico.class.getResource("/com/sun/javafx/scene/web/skin/Undo_16x16_JFX.png")));
 		btnVoltar.setBounds(707, 11, 100, 35);
 		contentPane.add(btnVoltar);
 	}
+ 
 	
-	       // DefaultTableModel modelo = (DefaultTableModel);
-	       // jTProdutos.setRowSorter(new TableRowSorter(model));
-
-	       // readJTable();
- }
-	
-	/*public void readJTable() {
+	private void readJTable() {
     	
-		//DefaultTableModel modelo = (DefaultTableModel) jTProdutos.getModel();
-		//GeracaoJdbcDAO gdao = new GeracaoJdbcDAO();
+		Connection con;
 		
-		
-		
-		for (GeracaoEnergia g : gdao.listar()) {
+//		DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+		try {
+			
+			con = ConnectionClass.getConnection();
+			GeracaoJdbcDAO gdao = new GeracaoJdbcDAO(con);
+			
+			for (GeracaoEnergia g : gdao.listar()) {
 
-			modelTable.addRow(new Object[]{
-				g.getData(),
-				g.getGerado(),
-				g.getTempo(),
-				g.getPorcentagem()
-			});
-
-        }
-	
-		
-        
+				modelTable.addRow(new Object[]{
+					g.getData(),
+					g.getGerado(),
+					g.getTempo() + " min",
+					g.getPorcentagem() + "%"
+				});
+				con.close();
+	        }
+		}catch (ClassNotFoundException | SQLException e) {
+			JOptionPane.showMessageDialog(null, "Erro na Comunicação com o Banco de Dados!");
+			e.printStackTrace();
+		}
 
         this.table = new JTable(modelTable);
         this.scrollPainel = new JScrollPane(table);
 
         this.add(scrollPainel);
-    }*/
+    }
 	
+}

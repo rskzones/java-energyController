@@ -9,8 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConnectionClass {
-	private static String connectionDriverClass="org.mariadb.jdbc.Driver";
-	private static String  connectionUrl = "jdbc:mariadb://localhost:3306/feetenergy";
+	private static String connectionDriverClass="com.mysql.cj.jdbc.Driver";
+	private static String  connectionUrl = "jdbc:mysql://localhost/feetenergy?useTimezone=true&serverTimezone=UTC";
 	private static String connectionUsername="root";
 	private static String connectionPassword="";
 	private static Connection conn;
@@ -29,4 +29,3 @@ public class ConnectionClass {
 		
 	}
 }
-//jdbc:mariadb://localhost:3306/?user=root
