@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
 import com.feetEnergy.controller.ConnectionClass;
 import com.feetEnergy.controller.GeracaoJdbcDAO;
 import com.feetEnergy.model.GeracaoEnergia;
-import com.feetEnergy.model.GeracaoEnergiaTableModel;
 
 import javax.swing.JToolBar;
 import javax.swing.JTable;

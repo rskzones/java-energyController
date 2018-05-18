@@ -31,6 +31,7 @@ public class Login extends JFrame {
 	private JTextField txtUser;
 	private JPasswordField txtPass;
 	private JButton btnCadastro;
+	private JButton btnFazerLogin;
 
 	public Login() {
 		setResizable(false);
@@ -67,7 +68,7 @@ public class Login extends JFrame {
 		lblSenha.setBounds(38, 93, 69, 30);
 		contentPane.add(lblSenha);
 
-		JButton btnFazerLogin = new JButton("Login");
+		btnFazerLogin = new JButton("Login");
 		btnFazerLogin.setBackground(Color.LIGHT_GRAY);
 		btnFazerLogin.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		btnFazerLogin.addActionListener(new ActionListener() {
