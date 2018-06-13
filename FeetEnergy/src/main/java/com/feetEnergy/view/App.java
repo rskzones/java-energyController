@@ -17,11 +17,13 @@ import com.feetEnergy.view.Login;
 public class App extends JWindow {
 
 	private int duration;
+	public static int tema;
 
 	// Criação do Método App
 	public App(int d) {
 		// Determinando duração do Splash
 		duration = d;
+		tema = 0;
 	}
 
 	public void showApp() {

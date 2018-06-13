@@ -43,19 +43,20 @@ public class TelaHistorico extends JFrame {
 	private JScrollPane scrollPainel;
 	private DefaultTableModel modelTable = new DefaultTableModel();
 		
-	private JMenuBar menuBar;
-	private JMenu mnOpRelatorio;
+//	private JMenuBar menuBar;
+//	private JMenu mnOpRelatorio;
 	
-	private JMenuItem menuGeraTxt;
+//	private JMenuItem menuGeraTxt;
 
 
 	public TelaHistorico() {
+		setResizable(false);
 		setBackground(Color.WHITE);
 		setTitle("Feet Energy - Histórico");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 835, 530);
 		
-		menuBar = new JMenuBar();
+		/*menuBar = new JMenuBar();
 		menuBar.setBackground(Color.WHITE);
 		setJMenuBar(menuBar);
 		
@@ -63,9 +64,13 @@ public class TelaHistorico extends JFrame {
 		menuBar.add(mnOpRelatorio);
 		
 		menuGeraTxt = new JMenuItem("Gerar Documento .txt");
-		mnOpRelatorio.add(menuGeraTxt);
+		mnOpRelatorio.add(menuGeraTxt);*/
+		
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
+		if(App.tema == 0)
+			contentPane.setBackground(Color.WHITE);
+		else
+			contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -144,7 +149,7 @@ public class TelaHistorico extends JFrame {
         this.table = new JTable(modelTable);
         this.scrollPainel = new JScrollPane(table);
 
-        this.add(scrollPainel);
+        getContentPane().add(scrollPainel);
     }
 	
 }

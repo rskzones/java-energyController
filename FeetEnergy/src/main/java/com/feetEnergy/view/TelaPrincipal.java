@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.feetEnergy.comunicacaoSerial.ControlePorta;
 import com.feetEnergy.controller.ConnectionClass;
 import com.feetEnergy.controller.GeracaoJdbcDAO;
 import com.feetEnergy.model.GeracaoEnergia;
@@ -31,13 +32,30 @@ public class TelaPrincipal extends JFrame {
 
 	private JPanel contentPane;
 	private int nivelBat;
+	private double tensao;
 
 	public TelaPrincipal() {
+		setResizable(false);
 		setTitle("Feet Energy - Controlador de Energia");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 835, 530);
 		
 		lerBat();
+		
+		/*final ControlePorta arduino = new ControlePorta("/dev/ttyUSB0");
+
+		Thread t = new Thread() {
+			public void run() {
+
+				arduino.initialize();
+
+				while (true) {
+					tensao = Double.parseDouble(arduino.read());
+				}
+			}
+		};*/
+		
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.WHITE);
@@ -146,6 +164,15 @@ public class TelaPrincipal extends JFrame {
 		panelbat.setBackground(new Color(0, 0, 205));
 		panelbat.setBounds(272, 11, 235, 426);
 		panel.add(panelbat);
+		
+		Label lblTensaoDC = new Label("Tensão Atual: " + tensao);
+		lblTensaoDC.setForeground(Color.WHITE);
+		lblTensaoDC.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		lblTensaoDC.setBackground(new Color(0, 0, 128));
+		lblTensaoDC.setAlignment(Label.CENTER);
+		lblTensaoDC.setBounds(10, 11, 170, 30);
+		lblTensaoDC.setText("Tensão Atual: " + tensao);
+		panel.add(lblTensaoDC);
 
 	}
 

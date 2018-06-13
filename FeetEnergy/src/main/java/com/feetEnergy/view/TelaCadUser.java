@@ -36,6 +36,7 @@ public class TelaCadUser extends JFrame {
 	private JPasswordField pswConfirmaPass;
 
 	public TelaCadUser() {
+		setResizable(false);
 		setTitle("Cadastro de Usuário");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 300, 400);
@@ -63,11 +64,11 @@ public class TelaCadUser extends JFrame {
 		final JTextField txtUser = new JTextField();
 		txtUser.setBounds(20, 106, 235, 25);
 		contentPane.add(txtUser);
-		
+
 		pswPass = new JPasswordField();
 		pswPass.setBounds(20, 178, 235, 23);
 		contentPane.add(pswPass);
-		
+
 		pswConfirmaPass = new JPasswordField();
 		pswConfirmaPass.setBounds(20, 248, 235, 23);
 		contentPane.add(pswConfirmaPass);
@@ -77,45 +78,48 @@ public class TelaCadUser extends JFrame {
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				int cadastro = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?", "Cadastro de Usuário",
-						JOptionPane.YES_NO_OPTION);
-				if (cadastro == 0) {
-					
-					if(txtUser.getText().isEmpty() || pswPass.getPassword().length == 0 || pswConfirmaPass.getPassword().length == 0) {
-						JOptionPane.showMessageDialog(null, "Todos os Campos devem estar preenchidos!", "Aviso!", JOptionPane.WARNING_MESSAGE);	
-					}
-					else {
-						if(String.valueOf(pswPass.getPassword()).equals(String.valueOf(pswConfirmaPass.getPassword()))) {
-							
+				if (txtUser.getText().isEmpty() || pswPass.getPassword().length == 0
+						|| pswConfirmaPass.getPassword().length == 0) {
+					JOptionPane.showMessageDialog(null, "Todos os Campos devem estar preenchidos!", "Aviso!",
+							JOptionPane.WARNING_MESSAGE);
+				} else {
+					if (String.valueOf(pswPass.getPassword()).equals(String.valueOf(pswConfirmaPass.getPassword()))) {
+						int cadastro = JOptionPane.showConfirmDialog(null, "Deseja Cadastrar?", "Cadastro de Usuário",
+								JOptionPane.YES_NO_OPTION);
+
+						if (cadastro == 0) {
 							User user = new User();
 							try {
-							user.setUser(txtUser.getText());
-							user.setPass(String.valueOf(pswPass.getPassword()));
-							
-							Connection con = ConnectionClass.getConnection();
-							CadastroJdbcDAO dao = new CadastroJdbcDAO(con);
-							
-							dao.Salvar(user);
-							
+								user.setUser(txtUser.getText());
+								user.setPass(String.valueOf(pswPass.getPassword()));
+
+								Connection con = ConnectionClass.getConnection();
+								CadastroJdbcDAO dao = new CadastroJdbcDAO(con);
+
+								dao.Salvar(user);
+
+								txtUser.setText(null);
+								pswPass.setText(null);
+								pswConfirmaPass.setText(null);
+
+								user.setUser("");
+								user.setPass("");
+
+								JOptionPane.showMessageDialog(null, "Usuário Cadastrado com Sucesso!");
+
+							} catch (Exception e) {
+								e.printStackTrace();
+								JOptionPane.showMessageDialog(null, "Erro na Comunicação com o Banco de Dados!", "Erro",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						} else {
 							txtUser.setText(null);
 							pswPass.setText(null);
 							pswConfirmaPass.setText(null);
-							
-							user.setUser("");
-							user.setPass("");
-							
-							JOptionPane.showMessageDialog(null, "Usuário Cadastrado com Sucesso!");
-							
-							}catch (Exception e) {
-								e.printStackTrace();
-								JOptionPane.showMessageDialog(null, "Erro na Comunicação com o Banco de Dados!", "Erro", JOptionPane.ERROR_MESSAGE);
-							}
-							
-							
 						}
-						else {
-							JOptionPane.showMessageDialog(null, "As senhas não condizem!", "Aviso!", JOptionPane.WARNING_MESSAGE);
-						}
+					} else {
+						JOptionPane.showMessageDialog(null, "As senhas não condizem!", "Aviso!",
+								JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}
@@ -123,7 +127,7 @@ public class TelaCadUser extends JFrame {
 		btnCadastrar.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		btnCadastrar.setBounds(155, 298, 100, 40);
 		contentPane.add(btnCadastrar);
-		
+
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -136,7 +140,7 @@ public class TelaCadUser extends JFrame {
 		btnVoltar.setBackground(Color.LIGHT_GRAY);
 		btnVoltar.setBounds(20, 298, 100, 39);
 		contentPane.add(btnVoltar);
-		
+
 		JLabel lblCadastro = new JLabel("Cadastrar Usuário");
 		lblCadastro.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		lblCadastro.setBounds(20, 11, 235, 35);
