@@ -14,6 +14,13 @@ public class ConnectionClass {
 	private static String connectionUsername="root";
 	private static String connectionPassword="";
 	private static Connection conn;
+	
+//	RASPBERRY
+	
+//	private static String connectionDriverClass="org.mariadb.jdbc.Driver";
+//	private static String  connectionUrl = "jdbc:mariadb://localhost:3306/feetenergy";
+//	private static String connectionUsername="root";
+//	private static String connectionPassword="";
 
 	public static Connection getConnection() throws SQLException, ClassNotFoundException{
 		

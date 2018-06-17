@@ -6,7 +6,7 @@ public class GeracaoEnergia {
 	
 	private Integer idGeracao;
 	private Date data;
-	private float gerado;
+	private double gerado;
 	private int tempo;
 	private int porcentagem;
 	public Integer getIdGeracao() {
@@ -21,10 +21,10 @@ public class GeracaoEnergia {
 	public void setData(Date data) {
 		this.data = data;
 	}
-	public float getGerado() {
+	public double getGerado() {
 		return gerado;
 	}
-	public void setGerado(float gerado) {
+	public void setGerado(double gerado) {
 		this.gerado = gerado;
 	}
 	public int getTempo() {

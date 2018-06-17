@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -27,10 +28,13 @@ import java.awt.Label;
 import javax.swing.JSeparator;
 import javax.swing.JButton;
 import java.awt.Font;
+import javax.swing.UIManager;
+import javax.swing.JToggleButton;
 
 public class TelaPrincipal extends JFrame {
 
 	private JPanel contentPane;
+	private JLabel lblTensaoDC = new JLabel();
 	private int nivelBat;
 	private double tensao;
 
@@ -39,24 +43,50 @@ public class TelaPrincipal extends JFrame {
 		setTitle("Feet Energy - Controlador de Energia");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 835, 530);
-		
-		lerBat();
-		
-		/*final ControlePorta arduino = new ControlePorta("/dev/ttyUSB0");
 
-		Thread t = new Thread() {
+		lerBat();
+
+		// final ControlePorta arduino = new ControlePorta("/dev/ttyUSB0");
+		final ControlePorta arduino = new ControlePorta("COM3");
+		final Thread t = new Thread() {
 			public void run() {
 
 				arduino.initialize();
 
 				while (true) {
-					tensao = Double.parseDouble(arduino.read());
+					tensao += Double.parseDouble(String.valueOf(arduino.read()));
+					lblTensaoDC.setText("Tensão Atual: " + arduino.read());
+
+					if (tensao == 50) {
+
+						GeracaoEnergia geracao = new GeracaoEnergia();
+						Connection con;
+
+						try {
+
+							geracao.setGerado(tensao);
+							geracao.setTempo(45);
+							con = ConnectionClass.getConnection();
+
+							GeracaoJdbcDAO gDao = new GeracaoJdbcDAO(con);
+							gDao.salvar(geracao);
+
+							tensao = 0;
+
+						} catch (ClassNotFoundException | SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					}
+
 				}
+
 			}
-		};*/
-		
-		
-		
+		};
+
+//		t.start();
+
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.WHITE);
 		setJMenuBar(menuBar);
@@ -69,7 +99,7 @@ public class TelaPrincipal extends JFrame {
 
 		JMenuItem menuConfigItem = new JMenuItem("Configurações");
 		mnOpes.add(menuConfigItem);
-		
+
 		JMenuItem menuSobreItem = new JMenuItem("Sobre");
 		mnOpes.add(menuSobreItem);
 
@@ -93,7 +123,7 @@ public class TelaPrincipal extends JFrame {
 				TelaPrincipal.this.setVisible(false);
 			}
 		});
-		
+
 		menuSobreItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Sobre tlaSobre = new Sobre();
@@ -103,22 +133,23 @@ public class TelaPrincipal extends JFrame {
 
 		menuExitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				int status = JOptionPane.showConfirmDialog(null,"Deseja encerrar a aplicação?", "Aviso", JOptionPane.YES_NO_OPTION);
-				if(status == JOptionPane.YES_OPTION) {
+
+				int status = JOptionPane.showConfirmDialog(null, "Deseja encerrar a aplicação?", "Aviso",
+						JOptionPane.YES_NO_OPTION);
+				if (status == JOptionPane.YES_OPTION) {
 					System.exit(0);
 				}
 			}
 		});
 
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(0, 0, 128));
+		contentPane.setBackground(UIManager.getColor("ComboBox.disabledBackground"));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(0, 0, 128));
+		panel.setBackground(UIManager.getColor("ComboBox.disabledBackground"));
 		panel.setBounds(10, 11, 799, 448);
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -142,37 +173,43 @@ public class TelaPrincipal extends JFrame {
 
 		Label lblNivelBat = new Label("Nível da Bateria: " + nivelBat + "%");
 		lblNivelBat.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		lblNivelBat.setForeground(new Color(255, 255, 255));
-		lblNivelBat.setBackground(new Color(0, 0, 205));
+		lblNivelBat.setForeground(Color.BLACK);
+		lblNivelBat.setBackground(UIManager.getColor("ComboBox.disabledBackground"));
 		lblNivelBat.setAlignment(Label.CENTER);
 		lblNivelBat.setBounds(320, 273, 141, 30);
 		panel.add(lblNivelBat);
 
-		JButton btnRecarregar = new JButton("Atualizar Nível");
-		btnRecarregar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				lerBat();
-			}
-		});
-		btnRecarregar.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-		btnRecarregar.setForeground(Color.BLACK);
-		btnRecarregar.setBackground(Color.LIGHT_GRAY);
-		btnRecarregar.setBounds(320, 313, 141, 30);
-		panel.add(btnRecarregar);
-
-		JPanel panelbat = new JPanel();
-		panelbat.setBackground(new Color(0, 0, 205));
-		panelbat.setBounds(272, 11, 235, 426);
-		panel.add(panelbat);
-		
-		Label lblTensaoDC = new Label("Tensão Atual: " + tensao);
-		lblTensaoDC.setForeground(Color.WHITE);
+		Label lblTensaoDC = new Label();
+		lblTensaoDC.setForeground(Color.BLACK);
 		lblTensaoDC.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		lblTensaoDC.setBackground(new Color(0, 0, 128));
+		lblTensaoDC.setBackground(UIManager.getColor("ComboBox.disabledBackground"));
 		lblTensaoDC.setAlignment(Label.CENTER);
 		lblTensaoDC.setBounds(10, 11, 170, 30);
 		lblTensaoDC.setText("Tensão Atual: " + tensao);
 		panel.add(lblTensaoDC);
+
+		JPanel panelbat = new JPanel();
+		panelbat.setBackground(UIManager.getColor("ComboBox.disabledBackground"));
+		panelbat.setBounds(272, 11, 235, 426);
+		panel.add(panelbat);
+
+		final JToggleButton btnCalculoOnOff = new JToggleButton("Desligar Contagem");
+		btnCalculoOnOff.setBackground(Color.LIGHT_GRAY);
+		btnCalculoOnOff.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		btnCalculoOnOff.setBounds(41, 47, 139, 30);
+		btnCalculoOnOff.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (btnCalculoOnOff.isSelected()) {
+
+					t.interrupt();
+					btnCalculoOnOff.setText("Ligar Contagem");
+				} else {
+					t.start();
+					btnCalculoOnOff.setText("Desligar Contagem");
+				}
+			}
+		});
+		panel.add(btnCalculoOnOff);
 
 	}
 
@@ -185,7 +222,7 @@ public class TelaPrincipal extends JFrame {
 			GeracaoJdbcDAO gdao = new GeracaoJdbcDAO(con);
 
 			for (GeracaoEnergia g : gdao.listar()) {
-				
+
 				nivelBat = g.getPorcentagem();
 				con.close();
 			}
